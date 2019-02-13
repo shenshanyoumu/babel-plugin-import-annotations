@@ -114,6 +114,7 @@ export default class Plugin {
       } else if (style === 'css') {
         addSideEffect(file.path, `${path}/style/css`);
       } else if (typeof style === 'function') {
+        // style函数，接收参数path表示组件文件路径，而file表示组件文件对象。当然在配置中上style函数返回
         const stylePath = style(path, file);
         if (stylePath) {
           addSideEffect(file.path, stylePath);
