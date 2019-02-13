@@ -63,7 +63,7 @@ export default class Plugin {
     this.pluginStateKey = `importPluginState${index}`;
   }
 
-  //
+  //state表示处理当前AST节点的插件实例状态，由Babel编译器维护。可以根据该state来区分不同的插件实例
   getPluginState(state) {
     if (!state[this.pluginStateKey]) {
       state[this.pluginStateKey] = {}; // eslint-disable-line
@@ -87,6 +87,8 @@ export default class Plugin {
   importMethod(methodName, file, pluginState) {
     if (!pluginState.selectedMethods[methodName]) {
       const libraryDirectory = this.libraryDirectory;
+
+      // style可以是字符串，比如"css"或者"true"。同时也可以是函数来自定义样式加载路径
       const style = this.style;
       const transformedMethodName = this.camel2UnderlineComponentName // eslint-disable-line
         ? camel2Underline(methodName)
@@ -107,6 +109,7 @@ export default class Plugin {
         ? addDefault(file.path, path, { nameHint: methodName })
         : addNamed(file.path, methodName, path);
       if (style === true) {
+        // 样式路径，所谓副作用是对文件系统的访问
         addSideEffect(file.path, `${path}/style`);
       } else if (style === 'css') {
         addSideEffect(file.path, `${path}/style/css`);

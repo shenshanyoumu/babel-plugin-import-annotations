@@ -75,7 +75,7 @@ npm install babel-plugin-import --save-dev
 
 ### options
 
-`options` can be object.
+`options` 可以为 object 类型
 
 ```javascript
 {
@@ -100,9 +100,9 @@ npm install babel-plugin-import --save-dev
 }
 ```
 
-~`options` can be an array.~ It's not available in babel@7+
+~`options` 可以是数组类型.~ 在 babel@7+ 版本无效
 
-For Example:
+比如下面:
 
 ```javascript
 [
@@ -117,9 +117,7 @@ For Example:
 ];
 ```
 
-`Options` can't be an array in babel@7+, but you can add plugins with name to support multiple dependencies.
-
-For Example:
+`Options` 在 babel@7+ 版本不能是数组,但是可以使用下面形式来针对多个外部模块进行按需加载处理.
 
 ```javascrit
 // .babelrc
@@ -129,21 +127,17 @@ For Example:
 ]
 ```
 
-#### style
+#### 样式处理
 
-- `["import", { "libraryName": "antd" }]`: import js modularly
-- `["import", { "libraryName": "antd", "style": true }]`: import js and css modularly (LESS/Sass source files)
-- `["import", { "libraryName": "antd", "style": "css" }]`: import js and css modularly (css built files)
+- `["import", { "libraryName": "antd" }]`: 只将 JS 文件作为模块处理，引入的样式为外部模块经过编译后的 CSS 文件
+- `["import", { "libraryName": "antd", "style": true }]`: 将 JS 和 CSS 预处理文件作为模块 (LESS/Sass source files)
+- `["import", { "libraryName": "antd", "style": "css" }]`: 将 JS 和 CSS 作为模块 (css built files)
 
-If option style is a `Function`, `babel-plugin-import` will auto import the file which filepath equal to the function return value. This is useful for the components library developers.
-
-e.g.
+当设置 style 字段为 `Function`, `babel-plugin-import` 可以自定义样式加载路径. 这对于组件库开发者非常友好，比如下面例子
 
 - `` ["import", { "libraryName": "antd", "style": (name) => `${name}/style/2x` }] ``: import js and css modularly & css file path is `ComponentName/style/2x`
 
-If a component has no style, you can use the `style` function to return a `false` and the style will be ignored.
-
-e.g.
+如果组件没有引入样式文件,可以将 `style` 函数返回 `false` 来忽略，比如下面例子
 
 ```js
 [
